@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChambaLista — Foto profesional, CV y práctica de entrevista</title>
+<meta name="description" content="Consigue chamba más rápido: tu foto profesional con fondo de estudio, un CV adaptado al puesto y práctica de entrevista. Todo por WhatsApp en 24 horas. Pagas con Mercado Pago: tarjeta, transferencia u OXXO.">
+<meta property="og:title" content="ChambaLista — Tu kit para conseguir chamba">
+<meta property="og:description" content="Foto profesional + CV que sí leen + práctica de entrevista. Por WhatsApp, en 24 h, desde $149.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FBF7F1;
+    --card: #FFFFFF;
+    --ink: #0F1A2A;
+    --muted: #5B6676;
+    --line: #E8E1D6;
+    --accent: #FF5A36;
+    --accent-ink: #FFFFFF;
+    --accent-soft: #FFE6DE;
+    --green: #1F7A5A;
+    --green-soft: #DDF3EA;
+    --sun: #FFC94A;
+    --wa: #25D366;
+    --radius: 18px;
+    --shadow: 0 1px 2px rgba(15, 26, 42, .06), 0 8px 24px rgba(15, 26, 42, .08);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 17px/1.55 "DM Sans", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: "Bricolage Grotesque", "DM Sans", sans-serif; line-height: 1.08; margin: 0; letter-spacing: -.02em; }
+  h2 { font-size: clamp(28px, 6vw, 42px); font-weight: 800; }
+  h3 { font-size: 21px; font-weight: 600; }
+  p { margin: 0; }
+  a { color: inherit; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  section { padding: 64px 0; }
+  .eyebrow { font: 700 13px/1 "DM Sans", sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  .lead { color: var(--muted); font-size: 18px; margin-top: 14px; max-width: 560px; }
+
+  /* Botones */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 52px; padding: 0 24px; border-radius: 999px; border: 0;
+    font: 700 17px/1 "DM Sans", sans-serif; text-decoration: none; cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; }
+  .btn-wa { background: var(--wa); color: #06341A; box-shadow: 0 6px 18px rgba(37, 211, 102, .35); }
+  .btn-ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
+  .btn svg { width: 22px; height: 22px; flex: none; }
+
+  /* Encabezado */
+  header { position: sticky; top: 0; z-index: 10; background: rgba(251, 247, 241, .9); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { display: flex; align-items: center; gap: 8px; font: 800 22px/1 "Bricolage Grotesque", sans-serif; text-decoration: none; letter-spacing: -.02em; }
+  .logo-mark { width: 32px; height: 32px; border-radius: 10px; background: var(--accent); display: grid; place-items: center; }
+  .logo-mark svg { width: 20px; height: 20px; }
+  .logo b { color: var(--accent); }
+  header .btn { min-height: 42px; padding: 0 16px; font-size: 15px; }
+
+  /* Hero */
+  .hero { padding: 40px 0 56px; }
+  .hero .wrap { display: grid; gap: 40px; align-items: center; }
+  .hero h1 { font-size: clamp(40px, 10vw, 68px); font-weight: 800; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .trust { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 22px; color: var(--muted); font-size: 15px; }
+  .trust span { display: inline-flex; align-items: center; gap: 6px; }
+  .trust svg { width: 18px; height: 18px; color: var(--green); }
+
+  /* Ilustración del hero: CV + fotos + chat */
+  .showcase { position: relative; height: 430px; max-width: 420px; width: 100%; margin: 0 auto; }
+  .cv {
+    position: absolute; left: 0; top: 30px; width: 74%; background: var(--card); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 20px; transform: rotate(-3deg);
+  }
+  .cv-head { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; }
+  .cv-photo { width: 56px; height: 56px; border-radius: 14px; overflow: hidden; flex: none; }
+  .cv-name { font: 800 17px/1.1 "Bricolage Grotesque", sans-serif; }
+  .cv-role { font-size: 13px; color: var(--accent); font-weight: 700; margin-top: 3px; }
+  .cv-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 14px 0 7px; }
+  .bar { height: 8px; border-radius: 4px; background: var(--line); margin-bottom: 7px; }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip-row i { font-style: normal; font-size: 12px; font-weight: 700; padding: 4px 9px; border-radius: 999px; background: var(--green-soft); color: var(--green); }
+  .ats { position: absolute; right: -10px; top: -14px; background: var(--green); color: #fff; font-size: 12px; font-weight: 700; padding: 6px 10px; border-radius: 999px; transform: rotate(4deg); }
+  .photos { position: absolute; right: 0; top: 0; display: grid; grid-template-columns: repeat(2, 78px); gap: 8px; transform: rotate(4deg); }
+  .photos .ph { width: 78px; height: 96px; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); }
+  .bubble {
+    position: absolute; right: 0; bottom: 18px; width: 78%; background: #E7FFDB; border-radius: 16px 16px 4px 16px;
+    padding: 12px 14px; box-shadow: var(--shadow); font-size: 15px;
+  }
+  .bubble small { display: block; text-align: right; color: #5E7B66; font-size: 11px; margin-top: 4px; }
+  .bubble b { color: #0B6B3A; }
+
+  /* Pasos */
+  .steps { display: grid; gap: 16px; margin-top: 36px; counter-reset: s; }
+  .step { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
+  .step::before {
+    counter-increment: s; content: counter(s);
+    display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; margin-bottom: 16px;
+    background: var(--accent-soft); color: var(--accent); font: 800 20px/1 "Bricolage Grotesque", sans-serif;
+  }
+  .step p { color: var(--muted); margin-top: 8px; }
+
+  /* Paquetes */
+  #paquetes { background: var(--ink); color: #fff; }
+  #paquetes .lead { color: #AEB8C6; }
+  .plans { display: grid; gap: 16px; margin-top: 36px; align-items: start; }
+  .plan { background: #18263A; border: 1px solid #263852; border-radius: var(--radius); padding: 26px; position: relative; }
+  .plan.featured { background: var(--card); color: var(--ink); border: 3px solid var(--accent); order: -1; }
+  .tag { position: absolute; top: -14px; left: 24px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 999px; }
+  .price { font: 800 46px/1 "Bricolage Grotesque", sans-serif; margin: 14px 0 4px; }
+  .price small { font: 500 15px "DM Sans", sans-serif; color: #AEB8C6; }
+  .featured .price small { color: var(--muted); }
+  .save { display: inline-block; font-size: 13px; font-weight: 700; color: var(--green); background: var(--green-soft); padding: 4px 10px; border-radius: 999px; }
+  .plan ul { list-style: none; padding: 0; margin: 20px 0 24px; display: grid; gap: 10px; }
+  .plan li { display: flex; gap: 10px; font-size: 16px; }
+  .plan li svg { width: 20px; height: 20px; flex: none; margin-top: 2px; color: var(--wa); }
+  .featured li svg { color: var(--green); }
+  .plan .btn { width: 100%; }
+  .plan:not(.featured) .btn { background: #fff; color: var(--ink); box-shadow: none; }
+  .pay { text-align: center; color: #AEB8C6; margin-top: 28px; font-size: 15px; }
+
+  /* Revisión gratis y extras */
+  .free-link { display: inline-block; margin-top: 18px; font-weight: 700; color: var(--accent); text-decoration: none; }
+  .free-link:hover { text-decoration: underline; }
+  .free { background: var(--card); border: 2px dashed var(--accent); border-radius: 24px; padding: 28px 22px; display: grid; gap: 22px; align-items: center; }
+  .launch { display: inline-block; margin-left: 6px; font-size: 13px; font-weight: 700; color: var(--ink); background: var(--sun); padding: 3px 10px; border-radius: 999px; vertical-align: middle; }
+  .extra { text-align: center; color: #fff; margin-top: 24px; font-size: 16px; }
+  @media (min-width: 760px) { .free { grid-template-columns: 1fr auto; padding: 36px 40px; } }
+
+  /* Para quién */
+  .who { display: grid; gap: 12px; margin-top: 32px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  .who div { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; font-weight: 700; }
+  .who span { display: block; font-size: 26px; margin-bottom: 6px; }
+
+  /* Preguntas frecuentes */
+  .faq { margin-top: 32px; display: grid; gap: 10px; max-width: 760px; }
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 0 20px; }
+  summary { cursor: pointer; list-style: none; padding: 18px 0; font-weight: 700; display: flex; justify-content: space-between; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-size: 24px; line-height: 1; color: var(--accent); transition: transform .2s; }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { color: var(--muted); padding-bottom: 18px; }
+
+  /* Cierre */
+  .final { background: var(--accent); color: #fff; text-align: center; border-radius: 28px; padding: 48px 20px; }
+  .final p { margin: 14px auto 26px; max-width: 480px; font-size: 18px; color: #FFE6DE; }
+  .final .btn-wa { box-shadow: 0 6px 18px rgba(0, 0, 0, .18); }
+  footer { padding: 32px 0 96px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; }
+
+  /* Botón flotante en celular */
+  .float-wa {
+    position: fixed; right: 16px; bottom: 16px; z-index: 20; width: 60px; height: 60px; border-radius: 50%;
+    background: var(--wa); display: grid; place-items: center; box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+  }
+  .float-wa svg { width: 32px; height: 32px; color: #fff; }
+
+  @media (min-width: 760px) {
+    section { padding: 88px 0; }
+    .hero .wrap { grid-template-columns: 1.1fr 1fr; }
+    .steps { grid-template-columns: repeat(3, 1fr); }
+    .plans { grid-template-columns: repeat(3, 1fr); }
+    .plan.featured { transform: translateY(-12px); order: 0; }
+    .final { padding: 64px 40px; }
+    footer { padding-bottom: 32px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn { transition: none; } }
+</style>
+</head>
+<body>
+
+<!-- Iconos reutilizables -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.35-.5.05-.97.23-3.27-.68-2.77-1.09-4.52-3.92-4.66-4.1-.13-.18-1.1-1.47-1.1-2.8 0-1.33.7-1.98.95-2.25.24-.27.53-.34.71-.34h.51c.16 0 .38-.06.6.46.23.54.77 1.87.84 2 .07.14.11.3.02.48-.09.18-.14.29-.27.45-.14.16-.29.35-.41.47-.14.14-.28.28-.12.55.16.27.7 1.16 1.51 1.88 1.04.93 1.91 1.21 2.18 1.35.27.14.43.11.59-.07.16-.18.68-.79.86-1.06.18-.27.36-.23.61-.14.25.09 1.58.75 1.85.88.27.14.45.2.52.32.07.11.07.66-.17 1.33Z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-person" viewBox="0 0 80 100"><rect width="80" height="100" fill="var(--bg-ph, #DCE3EC)"/><circle cx="40" cy="38" r="17" fill="#C99A7A"/><path d="M40 18c-11 0-18 7-18 17 4-6 11-9 18-9s14 3 18 9c0-10-7-17-18-17Z" fill="#2B2420"/><path d="M8 100c2-20 15-32 32-32s30 12 32 32Z" fill="var(--suit, #1E2D44)"/><path d="M33 70l7 12 7-12Z" fill="#fff"/></symbol>
+</svg>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#" aria-label="ChambaLista, inicio">
+      <span class="logo-mark"><svg viewBox="0 0 24 24"><use href="#i-check" style="color:#fff"/></svg></span><span>Chamba<b>Lista</b></span>
+    </a>
+    <a class="btn btn-wa" data-wa="Hola, quiero información de ChambaLista" href="#">
+      <svg><use href="#i-wa"/></svg>Pedir
+    </a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Tu kit para conseguir trabajo</div>
+        <h1>Que te llamen a la <em>entrevista.</em></h1>
+        <p class="lead">Tu foto retocada con fondo de estudio, un CV adaptado al puesto que buscas y práctica de entrevista. Todo por WhatsApp y listo en 24 horas.</p>
+        <div class="cta">
+          <a class="btn btn-wa" data-wa="Hola, quiero el Kit Chamba completo ($249)" href="#">
+            <svg><use href="#i-wa"/></svg>Lo quiero por WhatsApp
+          </a>
+          <a class="btn btn-ghost" href="#paquetes">Ver paquetes</a>
+        </div>
+        <div class="trust">
+          <span><svg><use href="#i-check"/></svg>Desde $149, pago único</span>
+          <span><svg><use href="#i-check"/></svg>Tarjeta, transferencia u OXXO</span>
+          <span><svg><use href="#i-check"/></svg>Sin salir de casa</span>
+        </div>
+        <a class="free-link" data-wa="Hola, quiero la revisión gratis de mi CV" href="#">¿No te llaman? Te revisamos tu CV gratis →</a>
+      </div>
+
+      <div class="showcase" aria-hidden="true">
+        <div class="photos">
+          <div class="ph"><svg viewBox="0 0 80 100" style="--bg-ph:#DCE3EC"><use href="#i-person"/></svg></div>
+          <div class="ph"><svg viewBox="0 0 80 100" style="--bg-ph:#F3E3D3;--suit:#3B4A5E"><use href="#i-person"/></svg></div>
+          <div class="ph"><svg viewBox="0 0 80 100" style="--bg-ph:#E3EFE8;--suit:#2F5D50"><use href="#i-person"/></svg></div>
+          <div class="ph"><svg viewBox="0 0 80 100" style="--bg-ph:#EDE7F6;--suit:#111"><use href="#i-person"/></svg></div>
+        </div>
+        <div class="cv">
+          <span class="ats">✓ Pasa filtros ATS</span>
+          <div class="cv-head">
+            <div class="cv-photo"><svg viewBox="0 0 80 100"><use href="#i-person"/></svg></div>
+            <div><div class="cv-name">Tu Nombre</div><div class="cv-role">Auxiliar administrativo</div></div>
+          </div>
+          <div class="cv-label">Experiencia</div>
+          <div class="bar" style="width:92%"></div><div class="bar" style="width:78%"></div><div class="bar" style="width:85%"></div>
+          <div class="cv-label">Habilidades</div>
+          <div class="chip-row"><i>Excel</i><i>Atención a clientes</i><i>Facturación</i></div>
+        </div>
+        <div class="bubble">¡Listo! 📸 Aquí están tus <b>fotos con fondo de estudio</b> y tu <b>CV en PDF y Word</b>. Mañana empezamos tu práctica de entrevista 💪<small>10:42 ✓✓</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="como">
+    <div class="wrap">
+      <div class="eyebrow">Así de fácil</div>
+      <h2>Tres pasos y estás listo para aplicar.</h2>
+      <div class="steps">
+        <div class="step">
+          <h3>Escríbenos por WhatsApp</h3>
+          <p>Elige tu paquete y te mandamos un link de Mercado Pago: pagas con tarjeta, transferencia o en efectivo en OXXO.</p>
+        </div>
+        <div class="step">
+          <h3>Mándanos tus fotos y datos</h3>
+          <p>De 8 a 10 fotos que te tome alguien más (te mandamos una guía de cómo) y un cuestionario de 5 minutos sobre tu experiencia y el puesto que buscas.</p>
+        </div>
+        <div class="step">
+          <h3>Recibe todo en 24 horas</h3>
+          <p>Tus fotos, tu CV en PDF y Word y, con el Kit, tu carta de presentación. La práctica de entrevista empieza en el mismo chat.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="paquetes">
+    <div class="wrap">
+      <div class="eyebrow">Paquetes</div>
+      <h2>Un solo pago. Sin suscripciones.</h2>
+      <p class="lead">Elige lo que te falta, o llévate el kit completo y ahorra. <span class="launch">Precios de lanzamiento</span></p>
+      <div class="plans">
+        <div class="plan">
+          <h3>Foto Pro</h3>
+          <div class="price">$149 <small>MXN</small></div>
+          <ul>
+            <li><svg><use href="#i-check"/></svg>Tu foto real, retocada: luz, color y piel</li>
+            <li><svg><use href="#i-check"/></svg>Fondo de estudio en 3 tonos: gris, azul y claro</li>
+            <li><svg><use href="#i-check"/></svg>En tamaño para CV y para LinkedIn</li>
+            <li><svg><use href="#i-check"/></svg>Una ronda de ajustes incluida</li>
+          </ul>
+          <a class="btn btn-wa" data-wa="Hola, quiero el paquete Foto Pro ($149)" href="#">Quiero Foto Pro</a>
+        </div>
+        <div class="plan featured">
+          <span class="tag">El más pedido</span>
+          <h3>Kit Chamba</h3>
+          <div class="price">$249 <small>MXN</small></div>
+          <span class="save">$49 menos que por separado</span>
+          <ul>
+            <li><svg><use href="#i-check"/></svg>Todo Foto Pro + todo CV Pro</li>
+            <li><svg><use href="#i-check"/></svg>Carta de presentación para el puesto</li>
+            <li><svg><use href="#i-check"/></svg>7 días de práctica de entrevista por WhatsApp, con preguntas reales del puesto</li>
+            <li><svg><use href="#i-check"/></svg>Retroalimentación de tus respuestas, por texto o audio</li>
+          </ul>
+          <a class="btn btn-wa" data-wa="Hola, quiero el Kit Chamba completo ($249)" href="#"><svg><use href="#i-wa"/></svg>Quiero el Kit Chamba</a>
+        </div>
+        <div class="plan">
+          <h3>CV Pro</h3>
+          <div class="price">$149 <small>MXN</small></div>
+          <ul>
+            <li><svg><use href="#i-check"/></svg>CV redactado para el puesto que buscas</li>
+            <li><svg><use href="#i-check"/></svg>Formato que leen los sistemas de reclutamiento (ATS)</li>
+            <li><svg><use href="#i-check"/></svg>Entrega en PDF y Word</li>
+            <li><svg><use href="#i-check"/></svg>Una ronda de ajustes incluida</li>
+          </ul>
+          <a class="btn btn-wa" data-wa="Hola, quiero el paquete CV Pro ($149)" href="#">Quiero CV Pro</a>
+        </div>
+      </div>
+      <p class="extra">¿Ya hicimos tu CV? Lo adaptamos a otra vacante por <b>$49</b>.</p>
+      <p class="pay" style="margin-top:8px">Pago con Mercado Pago · Tarjeta de débito o crédito · Transferencia · Efectivo en OXXO</p>
+    </div>
+  </section>
+
+  <section id="revision">
+    <div class="wrap">
+      <div class="free">
+        <div>
+          <div class="eyebrow">Gratis, sin compromiso</div>
+          <h2>¿Mandas CVs y no te llaman?</h2>
+          <p class="lead">Mándanos el tuyo por WhatsApp y te decimos los 3 cambios que más te están quitando entrevistas. Sin costo.</p>
+        </div>
+        <a class="btn btn-wa" data-wa="Hola, quiero la revisión gratis de mi CV" href="#"><svg><use href="#i-wa"/></svg>Revisar mi CV gratis</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="para-quien">
+    <div class="wrap">
+      <div class="eyebrow">¿Es para mí?</div>
+      <h2>Para quien quiere destacar entre cientos de solicitudes.</h2>
+      <div class="who">
+        <div><span>🎓</span>Recién egresados</div>
+        <div><span>🚀</span>Buscas tu primer empleo</div>
+        <div><span>🔄</span>Quieres cambiar de trabajo</div>
+        <div><span>🏠</span>Regresas al mercado laboral</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="preguntas">
+    <div class="wrap">
+      <div class="eyebrow">Preguntas frecuentes</div>
+      <h2>Lo que nos preguntan antes de pedir.</h2>
+      <div class="faq">
+        <details>
+          <summary>¿Las fotos se ven naturales?</summary>
+          <p>Sí, porque es tu foto real: no la inventa una IA. Corregimos la luz, el color y la piel, quitamos el fondo de tu casa y te ponemos uno de estudio. Por eso importa que la foto venga bien tomada; te mandamos una guía de cómo hacerlo. Si alguna no te convence, la ajustamos en tu ronda de ajustes.</p>
+        </details>
+        <details>
+          <summary>¿Me ponen traje o camisa?</summary>
+          <p>No. Sales con la ropa que traes puesta en la foto, así que ponte una camisa o blusa lisa. Así te ves igual que el día de la entrevista.</p>
+        </details>
+        <details>
+          <summary>¿Qué pasa con mis fotos y mis datos?</summary>
+          <p>Se usan solo para hacer tu pedido. No se publican ni se comparten, y los borramos cuando te entregamos todo. Consulta nuestro <a href="aviso-privacidad.html">aviso de privacidad</a>.</p>
+        </details>
+        <details>
+          <summary>¿Cuánto tarda?</summary>
+          <p>Menos de 24 horas desde que recibimos tus fotos y tu cuestionario. Si a tu CV le falta algún dato (por ejemplo, cuántos clientes atendías), te lo preguntamos por WhatsApp y lo agregamos sin costo extra. La práctica de entrevista del Kit Chamba dura 7 días y la haces a tu ritmo.</p>
+        </details>
+        <details>
+          <summary>¿Cómo pago?</summary>
+          <p>Te mandamos un link de Mercado Pago por WhatsApp. Puedes pagar con tarjeta de débito o crédito, por transferencia o en efectivo en OXXO. Si pagas en efectivo, empezamos en cuanto se acredita el pago.</p>
+        </details>
+        <details>
+          <summary>¿Me garantizan el trabajo?</summary>
+          <p>Nadie puede garantizarlo. Lo que sí te damos es una presentación profesional y práctica real, para que tu solicitud destaque y llegues a la entrevista con más seguridad.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="final">
+        <h2>Tu próxima entrevista empieza hoy.</h2>
+        <p>Escríbenos y en 24 horas tienes tus fotos, tu CV y tu práctica de entrevista.</p>
+        <a class="btn btn-wa" data-wa="Hola, quiero el Kit Chamba completo ($249)" href="#"><svg><use href="#i-wa"/></svg>Pedir por WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="year">2026</span> ChambaLista · Hecho en México</span>
+    <a href="aviso-privacidad.html">Aviso de privacidad</a>
+  </div>
+</footer>
+
+<a class="float-wa" data-wa="Hola, quiero información de ChambaLista" href="#" aria-label="Escríbenos por WhatsApp"><svg><use href="#i-wa"/></svg></a>
+
+<script>
+  // Número de WhatsApp Business con lada de país y sin espacios (ej. 5215512345678).
+  const WA_NUMBER = "525656625739";
+  document.querySelectorAll("[data-wa]").forEach((a) => {
+    // api.whatsapp.com conserva el mensaje en WhatsApp Desktop; wa.me a veces lo pierde al abrir la app.
+    const text = encodeURIComponent(a.dataset.wa).replace(/\(/g, "%28").replace(/\)/g, "%29");
+    a.href = `https://api.whatsapp.com/send?phone=${WA_NUMBER}&text=${text}`;
+    a.target = "_blank";
+    a.rel = "noopener";
+  });
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

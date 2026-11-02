@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuestionario de tu CV — ChambaLista</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FBF7F1;
+    --card: #FFFFFF;
+    --ink: #0F1A2A;
+    --muted: #5B6676;
+    --line: #E8E1D6;
+    --accent: #FF5A36;
+    --accent-soft: #FFE6DE;
+    --green: #1F7A5A;
+    --wa: #25D366;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 17px/1.5 "DM Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 0 16px 120px; }
+  header { padding: 20px 0 8px; display: flex; align-items: center; gap: 8px; font: 800 20px/1 "Bricolage Grotesque", sans-serif; }
+  header b { color: var(--accent); }
+  .mark { width: 28px; height: 28px; border-radius: 8px; background: var(--accent); display: grid; place-items: center; color: #fff; font-size: 16px; }
+  .progress { height: 6px; background: var(--line); border-radius: 3px; margin: 14px 0 6px; overflow: hidden; }
+  .progress i { display: block; height: 100%; background: var(--accent); border-radius: 3px; transition: width .3s; }
+  .step-label { font-size: 14px; color: var(--muted); font-weight: 500; }
+  h1 { font: 800 30px/1.1 "Bricolage Grotesque", sans-serif; margin: 10px 0 6px; letter-spacing: -.02em; }
+  .hint { color: var(--muted); margin: 0 0 22px; }
+  .step { display: none; }
+  .step.on { display: block; }
+  label { display: block; font-weight: 700; margin: 18px 0 6px; }
+  label small { font-weight: 400; color: var(--muted); }
+  input, textarea, select {
+    width: 100%; font: inherit; color: inherit; background: var(--card); border: 1.5px solid var(--line);
+    border-radius: 12px; padding: 13px 14px; outline: none;
+  }
+  textarea { min-height: 96px; resize: vertical; }
+  input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+  ::placeholder { color: #A3ABB6; }
+  .row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+  .row input { min-width: 0; padding-left: 8px; padding-right: 8px; } /* el selector de mes es ancho en celular */
+  .job { background: var(--card); border: 1.5px solid var(--line); border-radius: 16px; padding: 4px 16px 18px; margin-top: 16px; }
+  .job h3 { font: 700 16px/1 "DM Sans", sans-serif; margin: 16px 0 0; color: var(--accent); }
+  .job input, .job textarea { background: var(--bg); }
+  .tip { background: var(--accent-soft); border-radius: 12px; padding: 12px 14px; font-size: 15px; margin-top: 18px; }
+  .check { display: flex; gap: 10px; align-items: flex-start; font-weight: 500; margin-top: 18px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .chips label { display: flex; align-items: center; gap: 6px; margin: 0; padding: 8px 12px; border: 1px solid var(--line, #ddd); border-radius: 999px; font-weight: 500; font-size: 15px; }
+  .chips input { width: 18px; height: 18px; margin: 0; accent-color: var(--accent); }
+  .cert-box { border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-top: 18px; }
+  .cert + .cert { border-top: 1px dashed var(--line); margin-top: 14px; padding-top: 4px; }
+  .check input { width: 22px; height: 22px; flex: none; margin-top: 2px; accent-color: var(--accent); }
+  .link-btn { background: none; border: 0; color: var(--accent); font: 700 16px "DM Sans", sans-serif; padding: 14px 0 0; cursor: pointer; }
+  .nav { position: fixed; left: 0; right: 0; bottom: 0; background: rgba(251, 247, 241, .95); backdrop-filter: blur(8px); border-top: 1px solid var(--line); }
+  .nav .wrap { display: flex; gap: 10px; padding: 12px 16px; }
+  .btn { flex: 1; min-height: 52px; border-radius: 999px; border: 0; font: 700 17px "DM Sans", sans-serif; cursor: pointer; }
+  .btn-back { flex: 0 0 auto; padding: 0 22px; background: transparent; border: 2px solid var(--ink); color: var(--ink); }
+  .btn-next { background: var(--ink); color: #fff; }
+  .btn-send { background: var(--wa); color: #06341A; }
+  .err { color: #B42318; font-size: 14px; margin-top: 6px; display: none; }
+  .done { text-align: center; padding-top: 40px; }
+  .ticket { display: inline-block; margin-top: 4px; font-size: 13px; font-weight: 700; color: var(--green); background: #DDF3EA; padding: 4px 10px; border-radius: 999px; }
+  .gate { padding-top: 24px; display: grid; gap: 4px; }
+  [hidden] { display: none !important; }
+  .done .big { font-size: 56px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><span class="mark">✓</span><span>Chamba<b>Lista</b></span></header>
+  <div class="gate" id="gate" hidden>
+    <h1>Este cuestionario se abre con tu ticket</h1>
+    <p class="hint">Te mandamos el enlace por WhatsApp cuando confirmamos tu pago. Si ya pagaste y no te llegó, escríbenos.</p>
+    <a class="btn btn-send" id="gatewa" href="#" style="display:flex;align-items:center;justify-content:center;text-decoration:none">Escribir por WhatsApp</a>
+  </div>
+  <div class="ticket" id="ticketLabel" hidden></div>
+  <div class="progress"><i id="bar"></i></div>
+  <div class="step-label" id="steplabel"></div>
+
+  <form id="f" novalidate>
+    <!-- Paso 1 -->
+    <section class="step on" data-title="Tus datos">
+      <h1>Tus datos</h1>
+      <p class="hint">Son los datos que van arriba en tu CV. Te toma 5 minutos llenar todo.</p>
+      <label>Nombre completo</label>
+      <input name="nombre" required placeholder="Ej. Daniela Ruiz Pérez" autocomplete="name">
+      <label>Ciudad y municipio</label>
+      <input name="ciudad" required placeholder="Ej. Apodaca, Nuevo León">
+      <div class="row">
+        <div><label>Teléfono</label><input name="telefono" required inputmode="tel" placeholder="81 1234 5678" autocomplete="tel"></div>
+        <div><label>Correo</label><input name="correo" required type="email" placeholder="tu@correo.com" autocomplete="email"></div>
+      </div>
+      <label>LinkedIn <small>(si tienes)</small></label>
+      <input name="linkedin" placeholder="linkedin.com/in/...">
+    </section>
+
+    <!-- Paso 2 -->
+    <section class="step" data-title="El trabajo que buscas">
+      <h1>¿Qué trabajo quieres conseguir?</h1>
+      <p class="hint">El que buscas ahora, no el que tienes o tuviste. Tu CV se arma pensando en ese puesto.</p>
+      <label>Puesto que quieres</label>
+      <input name="puesto" required placeholder="Ej. Practicante de ingeniería, Cajera, Auxiliar contable">
+      <label>Link o texto de una vacante <small>(si ya viste una)</small></label>
+      <textarea name="vacante" placeholder="Pega aquí el link o copia el anuncio"></textarea>
+      <label>Tu disponibilidad <small>(marca las que sí; muchas vacantes las piden)</small></label>
+      <div class="chips" id="dispo">
+        <label><input type="checkbox" value="Inicio inmediato"> Puedo empezar ya</label>
+        <label><input type="checkbox" value="Turnos rotativos"> Turnos rotativos</label>
+        <label><input type="checkbox" value="Fines de semana"> Fines de semana</label>
+        <label><input type="checkbox" value="Disponibilidad para viajar"> Puedo viajar</label>
+        <label><input type="checkbox" value="Cambio de residencia"> Me puedo cambiar de ciudad</label>
+        <label><input type="checkbox" value="Auto o moto propia"> Tengo auto o moto</label>
+      </div>
+    </section>
+
+    <!-- Paso 3 -->
+    <section class="step" data-title="Tu experiencia">
+      <h1>Tu experiencia</h1>
+      <p class="hint">Del trabajo más reciente al más antiguo. Escribe como hablas, no tiene que ser formal.</p>
+      <div id="jobs"></div>
+      <button type="button" class="link-btn" id="addjob">+ Agregar otro trabajo</button>
+      <label class="check"><input type="checkbox" name="sinexp" id="sinexp"> No he tenido trabajo formal</label>
+      <div id="sinexpbox" style="display:none">
+        <label>¿Qué has hecho que cuente como experiencia?</label>
+        <textarea name="otraexp" placeholder="Prácticas, servicio social, el negocio de tu familia, vender por tu cuenta, proyectos de la escuela..."></textarea>
+      </div>
+      <div class="tip">🎤 ¿Te da flojera escribir? Llena solo empresa, puesto y fechas, y mándanos un audio por WhatsApp contando qué hacías.</div>
+    </section>
+
+    <!-- Paso 4 -->
+    <section class="step" data-title="Estudios y extras">
+      <h1>Estudios y extras</h1>
+      <label>¿Qué carrera estudias o estudiaste? <small>(o «secundaria», «prepa»)</small></label>
+      <input name="carrera" required placeholder="Ej. Ingeniero Mecánico Administrador">
+      <label>¿En qué escuela?</label>
+      <input name="estudios" required placeholder="Ej. FIME UANL">
+      <label>¿Cuándo terminaste? <small>(o en qué semestre vas)</small></label>
+      <input name="termino" required placeholder="Ej. 2021 / 9.º semestre">
+      <div class="cert-box">
+        <label class="check" style="margin-top:0"><input type="checkbox" id="tienecert"> <b>Tengo certificaciones o cursos</b></label>
+        <p class="hint" style="margin:6px 0 0">Ej. SolidWorks CSWA, Excel de Microsoft, curso de seguridad, licencia de montacargas.</p>
+        <div id="certs" hidden>
+          <div class="cert">
+            <label>Nombre</label><input data-c="nombre" placeholder="Ej. Certified SolidWorks Associate (CSWA)">
+            <div class="row">
+              <div><label>¿Quién la da?</label><input data-c="quien" placeholder="Ej. Dassault Systèmes"></div>
+              <div><label>Año</label><input data-c="anio" inputmode="numeric" placeholder="Ej. 2025"></div>
+            </div>
+            <label>Link para verificarla <small>(si tiene)</small></label><input data-c="link" type="url" placeholder="https://...">
+          </div>
+          <button type="button" class="link-btn" id="addcert">+ Agregar otra</button>
+          <p class="hint">📎 ¿La tienes en PDF? Mándala por WhatsApp después de enviar esto.</p>
+        </div>
+      </div>
+      <label>Programas que usas y qué tan bien</label>
+      <input name="programas" placeholder="Ej. Word muy bien, Excel básico">
+      <label>¿Cuáles de estas sabes hacer? <small>(marca las que sí)</small></label>
+      <div class="chips" id="habilidades">
+        <label><input type="checkbox" value="Atención a clientes"> Atención a clientes</label>
+        <label><input type="checkbox" value="Manejo de caja y cobro"> Manejo de caja</label>
+        <label><input type="checkbox" value="Ventas"> Ventas</label>
+        <label><input type="checkbox" value="Control de inventario"> Inventarios</label>
+        <label><input type="checkbox" value="Excel: fórmulas"> Excel con fórmulas</label>
+        <label><input type="checkbox" value="Excel: tablas dinámicas"> Tablas dinámicas</label>
+        <label><input type="checkbox" value="Redes sociales para negocio"> Redes sociales</label>
+        <label><input type="checkbox" value="Lectura de planos"> Leer planos</label>
+        <label><input type="checkbox" value="Uso de herramienta de taller"> Herramienta de taller</label>
+        <label><input type="checkbox" value="Manejo de montacargas"> Montacargas</label>
+        <label><input type="checkbox" value="Inspección de calidad"> Inspección de calidad</label>
+        <label><input type="checkbox" value="Licencia de manejo"> Licencia de manejo</label>
+        <label><input type="checkbox" value="Facturación"> Facturar</label>
+        <label><input type="checkbox" value="Primeros auxilios"> Primeros auxilios</label>
+      </div>
+      <label>Inglés</label>
+      <select name="ingles">
+        <option value="">Elige uno</option>
+        <option>No hablo inglés</option>
+        <option>Básico</option>
+        <option>Lo leo y entiendo, pero no lo hablo</option>
+        <option>Me defiendo hablando</option>
+        <option>Lo hablo bien</option>
+      </select>
+      <label>¿Algo que prefieras no poner? <small>(opcional)</small></label>
+      <input name="noponer" placeholder="Ej. un tiempo sin trabajar">
+      <label class="check"><input type="checkbox" id="privacidad" required> Acepto que usen mis datos solo para hacer mi CV. Se borran al entregarlo (<a href="aviso-privacidad.html" target="_blank" style="color:var(--accent)">aviso de privacidad</a>).</label>
+      <div class="err" id="perr">Necesitamos que aceptes para poder hacer tu CV.</div>
+    </section>
+
+    <section class="step" data-title="Listo">
+      <div class="done">
+        <div class="big">🎉</div>
+        <h1>¡Listo!</h1>
+        <p class="hint">Se abrió WhatsApp con tus respuestas: solo dale enviar. Si no se abrió, tus respuestas ya están copiadas: pégalas en nuestro chat.</p>
+      </div>
+    </section>
+  </form>
+</div>
+
+<div class="nav"><div class="wrap">
+  <button type="button" class="btn btn-back" id="back">Atrás</button>
+  <button type="button" class="btn btn-next" id="next">Siguiente</button>
+</div></div>
+
+<template id="jobtpl">
+  <div class="job">
+    <h3></h3>
+    <label>Empresa</label><input data-k="empresa" placeholder="Ej. Farmacia La Esperanza">
+    <label>Tu puesto</label><input data-k="puesto" placeholder="Ej. Cajera">
+    <div class="row">
+      <div><label>Entraste</label><input data-k="desde" type="month"></div>
+      <div><label>Saliste</label><input data-k="hasta" type="month"></div>
+    </div>
+    <label class="check"><input type="checkbox" data-k="sigo"> Sigo trabajando ahí</label>
+    <label>¿Qué hacías en un día normal?</label>
+    <textarea data-k="dia" placeholder="Ej. Abría la caja, cobraba, acomodaba mercancía y al final hacía el corte."></textarea>
+    <label>Más o menos, ¿cuántos clientes, pedidos, piezas o ventas al día o al mes?</label>
+    <input data-k="numeros" placeholder="Ej. unos 250 clientes por turno">
+    <label>¿Algo que te encargaban solo a ti, o algo que mejoraste?</label>
+    <textarea data-k="logro" placeholder="Ej. Los fines de semana me dejaban a cargo de la tienda."></textarea>
+  </div>
+</template>
+
+<script>
+  // Número de WhatsApp Business con lada de país (igual que en index.html).
+  const WA_NUMBER = "525656625739";
+  // El link se manda después del pago con el ticket: cuestionario.html?t=CL-0007
+  const TICKET = (new URLSearchParams(location.search).get("t") || "").toUpperCase();
+  if (!/^CL-\d{4}$/.test(TICKET)) {
+    document.getElementById("gate").hidden = false;
+    document.getElementById("gatewa").href = `https://api.whatsapp.com/send?phone=${WA_NUMBER}&text=${encodeURIComponent("Hola, ya pagué y no me llegó el link del cuestionario")}`;
+    document.querySelector(".progress").hidden = true;
+    document.getElementById("steplabel").hidden = true;
+    document.getElementById("f").hidden = true;
+    document.querySelector(".nav").hidden = true;
+  } else {
+    const tl = document.getElementById("ticketLabel");
+    tl.textContent = `Ticket ${TICKET}`;
+    tl.hidden = false;
+  }
+  const steps = [...document.querySelectorAll(".step")];
+  const form = document.getElementById("f");
+  const jobs = document.getElementById("jobs");
+  let cur = 0;
+
+  function addJob() {
+    const node = document.getElementById("jobtpl").content.cloneNode(true);
+    node.querySelector("h3").textContent = jobs.children.length ? `Trabajo ${jobs.children.length + 1}` : "Trabajo más reciente";
+    jobs.appendChild(node);
+  }
+  addJob();
+  document.getElementById("addjob").onclick = addJob;
+  document.getElementById("tienecert").onchange = (e) => { document.getElementById("certs").hidden = !e.target.checked; };
+  document.getElementById("addcert").onclick = () => {
+    const nueva = document.querySelector("#certs .cert").cloneNode(true);
+    nueva.querySelectorAll("input").forEach((i) => (i.value = ""));
+    document.getElementById("addcert").before(nueva);
+  };
+  document.getElementById("sinexp").onchange = (e) => {
+    document.getElementById("sinexpbox").style.display = e.target.checked ? "block" : "none";
+  };
+
+  function show(i) {
+    steps.forEach((s, k) => s.classList.toggle("on", k === i));
+    const last = steps.length - 1;
+    document.getElementById("bar").style.width = `${Math.min(i + 1, last) / last * 100}%`;
+    document.getElementById("steplabel").textContent = i < last ? `Paso ${i + 1} de ${last}` : "";
+    document.getElementById("back").style.visibility = i > 0 && i < last ? "visible" : "hidden";
+    const next = document.getElementById("next");
+    next.style.display = i < last ? "" : "none";
+    next.textContent = i === last - 1 ? "Enviar por WhatsApp" : "Siguiente";
+    next.className = "btn " + (i === last - 1 ? "btn-send" : "btn-next");
+    window.scrollTo(0, 0);
+  }
+
+  function valid(i) {
+    let ok = true;
+    steps[i].querySelectorAll("[required]").forEach((el) => {
+      const bad = el.type === "checkbox" ? !el.checked : !el.value.trim();
+      el.style.borderColor = bad ? "#B42318" : "";
+      if (bad) ok = false;
+    });
+    document.getElementById("perr").style.display = i === 3 && !document.getElementById("privacidad").checked ? "block" : "none";
+    return ok;
+  }
+
+  function resumen() {
+    const v = (n) => (form.elements[n]?.value || "").trim();
+    const lines = [
+      `*CUESTIONARIO CV — Ticket ${TICKET}*`,
+      "",
+      `*Nombre:* ${v("nombre")}`,
+      `*Ciudad:* ${v("ciudad")}`,
+      `*Teléfono:* ${v("telefono")}`,
+      `*Correo:* ${v("correo")}`,
+    ];
+    if (v("linkedin")) lines.push(`*LinkedIn:* ${v("linkedin")}`);
+    lines.push("", `*Puesto que busca:* ${v("puesto")}`);
+    if (v("vacante")) lines.push(`*Vacante:* ${v("vacante")}`);
+    const dispo = [...document.querySelectorAll("#dispo input:checked")].map((c) => c.value);
+    if (dispo.length) lines.push(`*Disponibilidad:* ${dispo.join(", ")}`);
+    [...jobs.children].forEach((j, k) => {
+      const g = (key) => j.querySelector(`[data-k="${key}"]`).value.trim();
+      if (!g("empresa") && !g("puesto")) return;
+      // El selector de mes da "2026-06"; se manda como "jun 2026" para que no haya duda de qué mes es.
+      const mes = (val) => {
+        const m = /^(\d{4})-(\d{2})$/.exec(val);
+        return m ? `${["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"][+m[2] - 1]} ${m[1]}` : val || "?";
+      };
+      const hasta = j.querySelector('[data-k="sigo"]').checked ? "sigo ahí" : mes(g("hasta"));
+      lines.push("", `*Trabajo ${k + 1}:* ${g("puesto")} en ${g("empresa")} (${mes(g("desde"))} – ${hasta})`);
+      if (g("dia")) lines.push(`• Día normal: ${g("dia")}`);
+      if (g("numeros")) lines.push(`• Números: ${g("numeros")}`);
+      if (g("logro")) lines.push(`• Solo a mí / mejoré: ${g("logro")}`);
+    });
+    if (form.elements.sinexp.checked) lines.push("", `*Otra experiencia:* ${v("otraexp")}`);
+    lines.push("", `*Estudios:* ${v("carrera")}, ${v("estudios")} (${v("termino")})`);
+    if (document.getElementById("tienecert").checked) {
+      document.querySelectorAll("#certs .cert").forEach((c) => {
+        const g = (k) => c.querySelector(`[data-c="${k}"]`).value.trim();
+        if (!g("nombre")) return;
+        lines.push(`*Certificación:* ${[g("nombre"), g("quien"), g("anio")].filter(Boolean).join(", ")}${g("link") ? ` · ${g("link")}` : ""}`);
+      });
+    }
+    if (v("programas")) lines.push(`*Programas:* ${v("programas")}`);
+    const sabe = [...document.querySelectorAll("#habilidades input:checked")].map((c) => c.value);
+    if (sabe.length) lines.push(`*Sabe hacer:* ${sabe.join(", ")}`);
+    if (v("ingles")) lines.push(`*Inglés:* ${v("ingles")}`);
+    if (v("noponer")) lines.push(`*No poner:* ${v("noponer")}`);
+    lines.push("", "✅ Acepté el aviso de privacidad.");
+    return lines.join("\n");
+  }
+
+  document.getElementById("next").onclick = async () => {
+    if (!valid(cur)) return;
+    if (cur === steps.length - 2) {
+      const text = resumen();
+      try { await navigator.clipboard.writeText(text); } catch (e) { /* sin portapapeles: queda el enlace */ }
+      window.open(`https://api.whatsapp.com/send?phone=${WA_NUMBER}&text=${encodeURIComponent(text)}`, "_blank", "noopener");
+    }
+    show(++cur);
+  };
+  document.getElementById("back").onclick = () => show(--cur);
+  show(0);
+</script>
+</body>
+</html>

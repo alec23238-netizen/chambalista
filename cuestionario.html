@@ -47,6 +47,7 @@
   .job { background: var(--card); border: 1.5px solid var(--line); border-radius: 16px; padding: 4px 16px 18px; margin-top: 16px; }
   .job h3 { font: 700 16px/1 "DM Sans", sans-serif; margin: 16px 0 0; color: var(--accent); }
   .job input, .job textarea { background: var(--bg); }
+  .guia { margin: 6px 0 8px; font-size: 14px; }
   .tip { background: var(--accent-soft); border-radius: 12px; padding: 12px 14px; font-size: 15px; margin-top: 18px; }
   .check { display: flex; gap: 10px; align-items: flex-start; font-weight: 500; margin-top: 18px; }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
@@ -217,6 +218,7 @@
     </div>
     <label class="check"><input type="checkbox" data-k="sigo"> Sigo trabajando ahí</label>
     <label>¿Qué hacías en un día normal?</label>
+    <div class="tip guia" hidden></div>
     <textarea data-k="dia" placeholder="Ej. Abría la caja, cobraba, acomodaba mercancía y al final hacía el corte."></textarea>
     <label>Más o menos, ¿cuántos clientes, pedidos, piezas o ventas al día o al mes?</label>
     <input data-k="numeros" placeholder="Ej. unos 250 clientes por turno">
@@ -254,6 +256,30 @@
   }
   addJob();
   document.getElementById("addjob").onclick = addJob;
+  // Preguntas guía según el puesto que escriben (para que no contesten solo "atendía la caja").
+  const GUIAS = [
+    [/caj|cobr/, ["¿Hacías el corte de caja o el arqueo?", "¿Cobrabas servicios (luz, recargas, depósitos)?", "¿Manejabas efectivo, tarjeta y vales?", "¿Te quedaste sin faltantes? ¿Cuánto tiempo?"]],
+    [/vend|venta|mostrador|piso|tienda|asesor/, ["¿Tenías meta de ventas? ¿La cumplías?", "¿Acomodabas mercancía o hacías inventario?", "¿Atendías quejas o devoluciones?", "¿Abrías o cerrabas la tienda?"]],
+    [/almac|bodega|montacarg|surt|embarq|recib|inventar/, ["¿Usabas montacargas, patín o escáner?", "¿Surtías o recibías pedidos? ¿Cuántos al día?", "¿Hacías conteos de inventario?", "¿Usabas algún sistema (SAP, WMS, Excel)?"]],
+    [/operad|produc|ensambl|maquil|línea|linea|planta|soldad|torn|cnc/, ["¿Qué máquinas o herramientas usabas?", "¿Cuántas piezas por turno sacabas?", "¿Trabajaste turnos rotativos?", "¿Te capacitaron en 5S, seguridad o calidad?"]],
+    [/calidad|inspec|metrolog/, ["¿Qué inspeccionabas y con qué (vernier, calibradores)?", "¿Llenabas reportes o registros?", "¿Detectaste fallas que se corrigieron?", "¿Conoces normas como ISO o IATF?"]],
+    [/auxil|admin|recepc|contab|oficina|secret|captur|factur|nómin|nomin/, ["¿Qué programas usabas (Excel, CONTPAQi, SAP)?", "¿Cuántas facturas, pagos o expedientes llevabas?", "¿Atendías teléfono, correo o proveedores?", "¿Hacías reportes? ¿Para quién?"]],
+    [/meser|cocin|barist|restaur|bar|comida|chef|ayudante de cocina/, ["¿Cuántas mesas o comandas atendías?", "¿Manejabas caja o propinas?", "¿Preparabas alimentos? ¿Cuáles?", "¿Tienes distintivo H o curso de higiene?"]],
+    [/call|telef|atenci|soporte|cobranz/, ["¿Cuántas llamadas o chats al día?", "¿Tenías metas (ventas, cobranza, satisfacción)?", "¿Qué sistema o CRM usabas?", "¿Resolvías quejas tú solo?"]],
+    [/chofer|repart|conduc|mensaj|logíst|logist/, ["¿Qué vehículo manejabas? ¿Qué licencia tienes?", "¿Cuántas entregas al día?", "¿Cobrabas o llevabas bitácora?", "¿Qué zonas cubrías?"]],
+    [/limpi|intend|mantenim/, ["¿Qué áreas te tocaban?", "¿Usabas maquinaria o químicos especiales?", "¿Hacías reparaciones (eléctricas, plomería)?", "¿Llevabas control de material?"]],
+  ];
+  const GENERAL = ["¿Qué hacías primero al llegar y qué al final?", "¿Qué programas, máquinas o herramientas usabas?", "¿Cuántos clientes, piezas o pedidos al día?", "¿Te dejaban a cargo de algo?"];
+  jobs.addEventListener("input", (e) => {
+    if (e.target.dataset.k !== "puesto") return;
+    const caja = e.target.closest(".job").querySelector(".guia");
+    const txt = e.target.value.toLowerCase().trim();
+    if (txt.length < 3) { caja.hidden = true; return; }
+    const lista = (GUIAS.find(([re]) => re.test(txt)) || [null, GENERAL])[1];
+    caja.innerHTML = "💡 Cuéntanos, si aplica:<br>" + lista.map((q) => "• " + q).join("<br>");
+    caja.hidden = false;
+  });
+
   document.getElementById("tienecert").onchange = (e) => { document.getElementById("certs").hidden = !e.target.checked; };
   document.getElementById("addcert").onclick = () => {
     const nueva = document.querySelector("#certs .cert").cloneNode(true);
